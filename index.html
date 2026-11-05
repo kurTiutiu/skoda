@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EV pokalbio gidas pardavėjams</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap">
+<style>
+:root{--bg:#f3f6f2;--card:#fff;--ink:#12251d;--mut:#5b6b63;--line:#d5dfd8;--acc:#0e7a4f;--acc2:#d9f2e3;--warn:#fff4d6;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1a15;--card:#17261f;--ink:#e6f1ea;--mut:#9db3a6;--line:#2a3d33;--acc:#4cc58a;--acc2:#1d3a2c;--warn:#3a3217}}
+:root[data-theme="dark"]{--bg:#0f1a15;--card:#17261f;--ink:#e6f1ea;--mut:#9db3a6;--line:#2a3d33;--acc:#4cc58a;--acc2:#1d3a2c;--warn:#3a3217}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Manrope,system-ui,-apple-system,Segoe UI,Arial,sans-serif}
+header{padding:28px 18px 8px;max-width:860px;margin:auto}
+h1{font-size:clamp(26px,5vw,38px);line-height:1.1;margin:0 0 8px;font-weight:800;letter-spacing:-.02em}
+header p{margin:0;color:var(--mut);max-width:60ch}
+nav{max-width:860px;margin:14px auto 0;padding:0 18px;display:flex;gap:8px;position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+nav button{flex:1;padding:11px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:600 15px Manrope,sans-serif;border-radius:10px;cursor:pointer}
+nav button[aria-selected=true]{background:var(--acc);color:#fff;border-color:var(--acc)}
+:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+main{max-width:860px;margin:auto;padding:14px 18px 60px}
+.prog{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:14px}
+.bar{height:10px;background:var(--acc2);border-radius:6px;overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;background:var(--acc);width:0;transition:width .3s}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;font-weight:600}
+.link{background:none;border:0;color:var(--mut);text-decoration:underline;cursor:pointer;font:inherit;font-size:14px}
+.t{background:var(--card);border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden}
+.t.done{border-color:var(--acc)}
+.th{display:flex;gap:12px;align-items:flex-start;padding:14px 16px}
+.th input{width:22px;height:22px;margin-top:3px;accent-color:var(--acc);flex:none}
+.th h3{margin:0;font-size:18px;line-height:1.25}
+.tag{font-size:13px;color:var(--mut)}
+.say{margin:0 16px 12px;padding:10px 14px;background:var(--acc2);border-radius:10px;font-style:italic}
+.body{padding:0 16px 14px}
+.sub{display:grid;gap:6px;margin:8px 0}
+.sub label{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border:1px solid var(--line);border-radius:10px;cursor:pointer}
+.sub input{margin-top:4px;accent-color:var(--acc)}
+.sub small{display:block;color:var(--mut)}
+details{margin:6px 0}summary{cursor:pointer;font-weight:600;padding:4px 0}
+ul{margin:6px 0;padding-left:20px}
+.note{background:var(--warn);border-radius:10px;padding:10px 12px;font-size:14px;margin:8px 0}
+textarea{width:100%;min-height:90px;border:1px solid var(--line);border-radius:10px;padding:10px;background:var(--bg);color:var(--ink);font:inherit}
+.calc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
+.calc h2{margin:0 0 4px;font-size:20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:12px 0}
+.grid label{font-size:13px;color:var(--mut);display:grid;gap:4px}
+input[type=number],select{width:100%;padding:9px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+.out{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.out div{background:var(--acc2);border-radius:10px;padding:10px 12px}
+.out b{display:block;font-size:22px}
+.out span{font-size:13px;color:var(--mut)}
+input[type=range]{width:100%;accent-color:var(--acc);padding:0}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<header>
+<h1>Elektromobilių pokalbio gidas</h1>
+<p>Skaičiuotuvai pagal pasirinktą modelį ir bateriją bei pokalbio planas pagal mystery shopper EV1–EV10 klausimus.</p>
+</header>
+<nav role="tablist">
+<button role="tab" aria-selected="true" data-tab="calc">Skaičiuotuvai</button>
+<button role="tab" aria-selected="false" data-tab="plan">Pokalbio planas</button>
+</nav>
+<main>
+<section id="plan" hidden>
+<div class="prog"><div class="top"><span id="pt">Aptarta temų: 0 iš 9</span><button class="link" id="reset">Pradėti iš naujo</button></div><div class="bar"><i id="pb"></i></div></div>
+<div id="list"></div>
+</section>
+<section id="calc">
+<div class="calc"><h2>Modelis ir baterija</h2><div class="tag">Visi skaičiuotuvai žemiau naudoja šį pasirinkimą. Duomenys iš skoda.lt kainoraščių.</div>
+<div class="grid"><label>Pasirinkite versiją<select id="m-s"></select></label></div>
+<div class="out" id="m-i"></div>
+<div class="grid"><label>Prielaidų sąnaudos, kWh/100 km (iš tinklo)<input type="number" id="a-c" step=".1"></label></div>
+<div class="tag" id="a-t"></div><button class="link" id="a-r" type="button">Atstatyti numatytąsias sąnaudas</button><div class="note" id="m-n" hidden></div></div>
+<div class="calc"><h2>Nuotolis realiomis sąlygomis</h2><div class="tag">Orientacinis įvertis klientui – ne garantija.</div>
+<div class="grid"><label>Sąlygos<select id="r-c"><option value="0.95">Vasara, miestas</option><option value="0.88">Vasara, mišrus ciklas</option><option value="0.78">Vasara, greitkelis 130 km/val.</option><option value="0.78">Žiema, miestas</option><option value="0.68">Žiema, mišrus ciklas</option><option value="0.6">Žiema, greitkelis</option></select></label></div>
+<div class="out"><div><b id="r-o">–</b><span id="r-l">numatomas nuotolis, km</span></div><div><b id="r-p">–</b><span>nuokrypis nuo WLTP</span></div><div><b id="r-c2">–</b><span id="r-l2">nuotolis pagal prielaidų sąnaudas, km</span></div></div><div class="tag">Paskutinis rezultatas = neto kWh ÷ prielaidų sąnaudos, atėmus ~10 % įkrovimo nuostolių (sąnaudos matuojamos nuo tinklo).</div></div>
+<div class="calc"><h2>Įkrovimo trukmė</h2><div class="tag">Supaprastinta: DC greitis krintant baterijos lygiui mažėja, todėl naudojamas vidurkis.</div>
+<div class="grid"><label>Nuo, %<input type="number" id="h-f" value="20"></label><label>Iki, %<input type="number" id="h-t" value="80"></label>
+<label>Įkrovimo būdas<select id="h-p"><option value="m2">Mode 2, buitinis lizdas (2,3 kW)</option><option value="m3a">Mode 3, 1 fazė (iki 7,4 kW)</option><option value="m3b" selected>Mode 3, Wallbox / AC stotelė (iki 11 kW)</option><option value="dc">Mode 4, DC greitoji stotelė</option></select></label></div>
+<div class="out"><div><b id="h-o">–</b><span>apytikslė trukmė</span></div><div><b id="h-k">–</b><span>pridedama energija, kWh</span></div><div><b id="h-w">–</b><span>naudojama galia, kW</span></div></div></div>
+<div class="calc"><h2>Eksploatacijos išlaidos: pasirinktas automobilis prieš ICE</h2><div class="tag">Keiskite skaičius pagal kliento tikrą situaciją ir pasakykite, kad naudojote skaičiuotuvą.</div>
+<div class="grid"><label>Metinis nuvažiavimas, km<input type="number" id="k-km" value="15000"></label><label>ICE sąnaudos, l/100 km<input type="number" id="k-l" value="7" step=".1"></label><label>Kuro kaina, €/l<input type="number" id="k-fp" value="1.6" step=".01"></label>
+<label>Namų elektra, €/kWh<input type="number" id="k-h" value="0.2" step=".01"></label><label>Viešos stotelės, €/kWh<input type="number" id="k-p" value="0.45" step=".01"></label><label>Elektros įkrauna namuose, %<input type="number" id="k-s" value="80" min="0" max="100"></label></div>
+<div id="k-ph" hidden><div class="grid"><label>Važiuojama elektra: <b id="k-sv">60 %</b><input type="range" id="k-sl" min="0" max="100" step="5" value="60"></label><label>Benzino sąnaudos, kai baterija išsikrovusi, l/100 km<input type="number" id="k-pl" value="7" step=".1"></label></div></div>
+<div class="out"><div><b id="k-i">–</b><span>ICE per metus, €</span></div><div><b id="k-v">–</b><span>pasirinktas auto per metus, €</span></div><div><b id="k-d">–</b><span>skirtumas per metus, €</span></div><div><b id="k-5">–</b><span>skirtumas per 5 m., €</span></div><div id="k-ekw" hidden><b id="k-ek">–</b><span>km elektra per metus</span></div></div>
+<div class="note">Skaičiuojama tik energija ir kuras. Servisą, draudimą, mokesčius ir nuvertėjimą aptarkite atskirai. Elektros sąnaudos imamos iš viršuje nurodytų prielaidų (kWh/100 km iš tinklo).</div></div>
+</section>
+</main>
+<script>
+var T=[
+{id:'EV1',t:'Pasiteiraukite apie kliento patirtį su EV',tag:'EV1',say:'„Ar esate vairavę elektromobilį? Ką apie juos jau žinote ir kas kelia daugiausia klausimų?“',tips:['Pradėkite nuo klausimo – taip pritaikysite pokalbio gylį.','Klauskite smalsiai, ne kaip egzaminuojant.']},
+{id:'EV2',t:'Akumuliatorius ir variklis',tag:'EV2 / EV2a – užtenka bent paklausti, ar paaiškinti',say:'„Pasakysiu svarbiausius skirtumus tarp variantų: kiek nuvažiuosite, kaip greitai įsikraus ir kokia galia jums reikalinga. Ar tai aktualu?“',sub:[['Akumuliatoriaus talpa (nuotolis)','Kuo didesnė talpa, tuo didesnis nuotolis; pasiūlykite pagal kliento kasdienį ir ilgų kelionių nuvažiavimą.'],['Garantija akumuliatoriui','Pateikite dabartines garantijos sąlygas (metai, rida, likusi talpa) iš oficialių Škoda šaltinių.'],['Įkrovimo greitis','Maksimali AC ir DC galia skiriasi pagal versiją.'],['Skirtingi variklio galios lygiai','Galia, pavara (galiniai / visi ratai) ir pagreitis.'],['Nuotolio variantai','Parodykite, kad tam pačiam modeliui yra kelios baterijos versijos.'],['Komplektacijos pasirinkimas','Kaip komplektacija keičia kainą ir nuotolį (ratai, įranga).']],tips:['Jei akumuliatoriaus alternatyva nepristatyta, tai matoma apklausoje – visada paminėkite bent dvi talpas.','Neužversdami techniniais terminais: kiekvieną parametrą susiekite su kliento naudojimu.']},
+{id:'EV3',t:'Kaip nuotolį veikia oras, keliai ir funkcijos',tag:'EV3',say:'„Nuotolis nėra pastovus skaičius: žiemą, važiuojant greitkeliu ir naudojant šildymą jis mažesnis. Parodysiu, kokio nuotolio realiai tikėtis.“',tips:['Veiksniai: šaltis, greitis, šildymas / kondicionierius, ratų dydis, apkrova, vairavimo stilius.','Naudokite skaičiuotuvo skiltį „Nuotolis realiomis sąlygomis“.','Patarimas: iš anksto pašildyti saloną kol automobilis kraunasi.']},
+{id:'EV4',t:'Įkrovimo galimybės',tag:'EV4 / EV4a – pažymėkite, ką paminėjote',say:'„Kur dažniausiai galėsite įkrauti: namuose, darbe ar kitur? Nuo to priklauso, kokio įkroviklio jums reikės.“',sub:[['Mode 2 laidas','Nešiojamas laidas su valdymo dėže, jungiamas į buitinį lizdą. Lėčiausias, tinka kaip atsarginis variantas.'],['Mode 3 laidas','Jungiamas prie Wallbox arba viešos AC stotelės. Dažniausias kasdienis būdas.'],['Mode 4 laidas','DC greitasis įkrovimas: laidas yra stotelėje. Tinka ilgoms kelionėms.'],['iV universalus įkroviklis','Lankstus įkroviklis; paaiškinkite, kokias jungtis ir galias palaiko.'],['Škoda Wallbox','Namų / įmonės įkrovimo stotelė; paminėkite montavimo poreikį ir galimybę pasiūlyti paslaugą.'],['Kitas wallbox arba vietinis sprendimas','Kito gamintojo Wallbox arba įkrovimas darbovietėje, daugiabutyje.']],tips:['Visada paklauskite, ar klientas turi savo parkavimo vietą su elektra.','Naudokite skaičiuotuvo skiltį „Įkrovimo trukmė“.']},
+{id:'EV5',t:'Įkrovimas viešosiose stotelėse',tag:'EV5',say:'„Parodysiu, kaip viešoje stotelėje pradėti įkrovimą: programėle, kortele ar tiesiogiai bankine kortele.“',tips:['Veiksmai: pasirinkti stotelę, prijungti laidą, autorizuotis, stebėti įkrovimą, atjungti.','Skirkite AC (lėtesnis) ir DC (greitas) stoteles.','Paminėkite, kad kainos ir tinklai skiriasi.']},
+{id:'EV6',t:'Powerpass',tag:'EV6 – paminėti ir trumpai paaiškinti',say:'„Powerpass leidžia vienu sprendimu naudotis daugelio viešųjų įkrovimo tinklų stotelėmis ir turėti vieną sąskaitą.“',tips:['Prieš naudodami šį sakinį, patikrinkite dabartines Powerpass sąlygas ir kainodarą Lietuvoje.','Pasakykite, kaip klientas gali jį aktyvuoti ir kur matyti stoteles.'],note:true},
+{id:'EV7',t:'Vairavimas: EV prieš vidaus degimo variklį',tag:'EV7 – užtenka bent paklausti',say:'„Elektromobilis važiuoja kitaip: tylus, staigiai reaguoja, o stabdyti galima ir pačiu pedalu. Norite, kad parodyčiau per bandomąjį važiavimą?“',tips:['Rekuperacija ir vieno pedalo vairavimas.','Momentinis sukimo momentas, tylumas.','Nėra pavarų dėžės, kitoks pagreitis.','Pasiūlykite bandomąjį važiavimą.']},
+{id:'EV8',t:'Eksploatacijos išlaidos ir sutaupymai',tag:'EV8 – apklausa klausia, ar naudotas įrankis',say:'„Paskaičiuokime kartu: kiek per metus nuvažiuojate ir kur dažniausiai kraunate? Palyginsiu su jūsų dabartinio automobilio sąnaudomis.“',tips:['Naudokite skiltį „Skaičiuotuvai“ ir parodykite klientui ekraną.','Naudokite kliento duomenis, o ne vidurkius.','Aptarkite ir servisą, draudimą bei mokesčius.']},
+{id:'EV9',t:'Vietiniai paskatinimai ir privalumai',tag:'EV9',say:'„Yra papildomų lengvatų elektromobiliams. Aptarsiu, kurios jums aktualios.“',tips:['Patikrinkite dabartines taisykles: paskatinimai, metinis mokestis, parkavimas, kiti vietiniai privalumai.','Užrašykite savo patikrintą sąrašą žemiau (išsaugoma tik šiame įrenginyje).'],notes:true},
+{id:'EV10',t:'Pokalbio pabaiga: žinių patikra',tag:'EV10 – bendras žinių įvertinimas',say:'„Ar turite dar klausimų apie elektromobilį, kuriuos galėčiau paaiškinti?“',tips:['Jei kažko nežinote, pasakykite: „Tai patikslinsiu ir šiandien atsiųsiu atsakymą.“','Pažadėtą atsakymą atsiųskite tą pačią dieną.']}
+];
+var S={};try{S=JSON.parse(localStorage.getItem('evgid')||'{}')}catch(e){}
+function sv(){try{localStorage.setItem('evgid',JSON.stringify(S))}catch(e){}}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;')}
+function render(){
+var h='';T.forEach(function(x){
+var d=!!S[x.id];
+h+='<article class="t'+(d?' done':'')+'"><div class="th"><input type="checkbox" data-k="'+x.id+'" id="c'+x.id+'"'+(d?' checked':'')+' aria-label="Aptarta"><label for="c'+x.id+'"><h3>'+x.t+'</h3><div class="tag">'+x.tag+'</div></label></div><p class="say">'+x.say+'</p><div class="body">';
+if(x.sub){h+='<div class="sub">';x.sub.forEach(function(s,i){var k=x.id+'_'+i;h+='<label><input type="checkbox" data-k="'+k+'"'+(S[k]?' checked':'')+'><span><b>'+s[0]+'</b><small>'+s[1]+'</small></span></label>'});h+='</div>'}
+h+='<details><summary>Patarimai</summary><ul>'+x.tips.map(function(t){return'<li>'+t+'</li>'}).join('')+'</ul></details>';
+if(x.note)h+='<div class="note">Šiame punkte nurodykite tik patikrintą informaciją.</div>';
+if(x.notes)h+='<textarea data-n="paskatinimai" placeholder="Jūsų patikrintas paskatinimų sąrašas...">'+esc(S.paskatinimai||'')+'</textarea>';
+h+='</div></article>'});
+document.getElementById('list').innerHTML=h;prog()}
+function prog(){var n=0;for(var i=0;i<9;i++)if(S[T[i].id])n++;
+document.getElementById('pt').textContent='Aptarta temų: '+n+' iš 9';document.getElementById('pb').style.width=(n/9*100)+'%'}
+var L=document.getElementById('list');
+L.addEventListener('change',function(e){var k=e.target.dataset.k;if(!k)return;S[k]=e.target.checked;sv();
+if(!k.includes('_')){e.target.closest('.t').classList.toggle('done',e.target.checked)}prog()});
+L.addEventListener('input',function(e){if(e.target.dataset.n){S[e.target.dataset.n]=e.target.value;sv()}});
+document.getElementById('reset').onclick=function(){var p=S.paskatinimai;S={};if(p)S.paskatinimai=p;sv();render()};
+document.querySelectorAll('nav button').forEach(function(b){b.onclick=function(){
+document.querySelectorAll('nav button').forEach(function(x){x.setAttribute('aria-selected',x===b)});
+document.getElementById('plan').hidden=b.dataset.tab!=='plan';document.getElementById('calc').hidden=b.dataset.tab!=='calc';window.scrollTo(0,0)}});
+var M=[
+['Epiq','Epiq 35','BEV',37,38.5,85,315,14.2,11,50,'Preliminarūs gamintojo duomenys; sąnaudos įvertintos pagal Epiq 40.',17.3],
+['Epiq','Epiq 40','BEV',37,38.5,99,327,14.2,11,88,'',17.3],
+['Epiq','Epiq 55','BEV',51.7,55,155,435,14,11,105,'',17.1],
+['Elroq','Elroq 60','BEV',58,61,140,450,16.2,11,105,'',19.8],
+['Elroq','Elroq 85','BEV',77,82,210,570,16,11,165,'',19.5],
+['Elroq','Elroq 85x','BEV',77,82,220,573,16.5,11,165,'',20.1],
+['Elroq','Elroq 85x RS','BEV',77,82,250,549,16.8,11,165,'',20.5],
+['Enyaq','Enyaq 60','BEV',58,61,140,454,15.9,11,105,'',19.4],
+['Enyaq','Enyaq 85','BEV',77,82,210,581,15.5,11,165,'',18.9],
+['Enyaq','Enyaq 85x','BEV',77,82,220,581,16.1,11,165,'',19.6],
+['Enyaq','Enyaq 85x RS','BEV',77,82,250,545,16.4,11,165,'',20.0],
+['Enyaq Coupé','Enyaq Coupé 60','BEV',58,61,140,461,15.5,11,105,'',18.9],
+['Enyaq Coupé','Enyaq Coupé 85','BEV',77,82,210,587,15.2,11,165,'',18.5],
+['Enyaq Coupé','Enyaq Coupé 85x','BEV',77,82,220,591,15.7,11,165,'',19.2],
+['Enyaq Coupé','Enyaq Coupé 85x RS','BEV',77,82,250,551,15.9,11,165,'',19.4],
+['Peaq','Peaq 60','BEV',59,63,150,450,16.4,11,160,'',20.0],
+['Peaq','Peaq 90','BEV',86,91,210,633,16.5,11,199,'',20.1],
+['Peaq','Peaq 90x','BEV',86,91,220,601,17.4,11,199,'',21.2],
+['Superb (PHEV)','Superb 1.5 TSI PHEV 150 kW','PHEV',19.7,25.7,150,139,16.5,11,50,'Sąnaudos įvertintos pagal kainoraščio Wh/km intervalą.',19.0],
+['Superb (PHEV)','Superb Combi 1.5 TSI PHEV 150 kW','PHEV',19.7,25.7,150,136,16.5,11,50,'Sąnaudos įvertintos pagal kainoraščio Wh/km intervalą.',19.0],
+['Superb (PHEV)','Superb 1.5 TSI PHEV 200 kW','PHEV',19.7,25.7,200,131,16.5,11,50,'Sąnaudos įvertintos pagal kainoraščio Wh/km intervalą.',19.0],
+['Kodiaq (PHEV)','Kodiaq 1.5 TSI PHEV 150 kW','PHEV',19.7,25.7,150,123,18.5,11,50,'Neto talpa kainoraštyje nenurodyta, prilyginta Superb PHEV; sąnaudos įvertintos.',21.0],
+['Kodiaq (PHEV)','Kodiaq 1.5 TSI PHEV 200 kW','PHEV',19.7,25.7,200,0,18.5,11,50,'Elektrinis nuotolis dar tikslinamas; neto talpa prilyginta Superb PHEV.',21.0]
+];
+function v(i){return parseFloat(document.getElementById(i).value)||0}
+function set(i,t){document.getElementById(i).textContent=t}
+function fm(n){return Math.round(n).toLocaleString('lt-LT')}
+function dc(n){return String(n).replace('.',',')}
+var sel=document.getElementById('m-s');
+(function(){var g='',og;M.forEach(function(m,i){if(m[0]!==g){g=m[0];og=document.createElement('optgroup');og.label=g;sel.appendChild(og)}var o=document.createElement('option');o.value=i;o.textContent=m[1]+' · '+dc(m[3])+' kWh';og.appendChild(o)});sel.value=S.mi||0})();
+function mdl(){return M[+sel.value||0]}
+function pick(){var m=mdl(),ph=m[2]==='PHEV';S.mi=+sel.value;sv();
+document.getElementById('m-i').innerHTML='<div><b>'+dc(m[3])+' kWh</b><span>naudingoji talpa (bruto '+dc(m[4])+')</span></div><div><b>'+(m[6]?m[6]+' km':'–')+'</b><span>'+(ph?'elektrinis nuotolis WLTP':'nuotolis WLTP')+'</span></div><div><b>'+m[5]+' kW</b><span>'+(ph?'sisteminė galia':'galia')+'</span></div><div><b>'+m[8]+' / '+m[9]+' kW</b><span>maks. AC / DC įkrovimas</span></div>';
+var n=document.getElementById('m-n');n.hidden=!m[10];n.textContent=m[10];
+document.getElementById('k-ph').hidden=!ph;document.getElementById('k-ekw').hidden=!ph;
+document.getElementById('a-c').value=m[11];var fam=m[0]==='Epiq'||m[0]==='Peaq';set('a-t','WLTP vidurkis: '+dc(m[7])+' kWh/100 km. '+(ph?'Naujos kartos PHEV duomenų Spritmonitor beveik nėra; senesnių Superb iV įrašai rodo ~14–19 kWh/100 km.':fam?'Naujam modeliui Spritmonitor duomenų nepakanka; prielaida perkelta iš Elroq.':'Pagal Spritmonitor Elroq parko vidurkį (19,9 kWh/100 km, 175 auto) ir WLTP santykį.'));set('r-l2',ph?'elektrinis nuotolis pagal prielaidų sąnaudas, km':'nuotolis pagal prielaidų sąnaudas, km');set('r-l',ph?'numatomas elektrinis nuotolis, km':'numatomas nuotolis, km');calc()}
+function calc(){var m=mdl(),ph=m[2]==='PHEV';
+var f=parseFloat(document.getElementById('r-c').value);set('r-o',m[6]?'~'+fm(m[6]*f):'–');set('r-p','−'+Math.round((1-f)*100)+' %');var ac=v('a-c');set('r-c2',ac>0?'~'+fm(m[3]/(ac*0.9)*100):'–');
+var a=v('h-f'),z=v('h-t'),k=document.getElementById('h-p').value,p=k==='dc'?m[9]*0.68:Math.min(k==='m2'?2.3:k==='m3a'?7.4:11,m[8]);
+var e=Math.max(0,z-a)/100*m[3],hr=e/(p*(k==='dc'?1:0.9)),H=Math.floor(hr),M2=Math.round((hr-H)*60);if(M2===60){H++;M2=0}
+set('h-o',(H>0?H+' val. ':'')+M2+' min.');set('h-k',dc(e.toFixed(1)));set('h-w',dc(p.toFixed(1)));
+var km=v('k-km'),fp=v('k-fp'),ice=km/100*v('k-l')*fp,s=Math.min(100,v('k-s'))/100,pr=v('k-h')*s+v('k-p')*(1-s),sh=ph?v('k-sl')/100:1;
+set('k-sv',v('k-sl')+' %');
+var ev=km*sh/100*v('a-c')*pr+km*(1-sh)/100*v('k-pl')*fp;
+set('k-i',fm(ice));set('k-v',fm(ev));set('k-d',fm(ice-ev));set('k-5',fm((ice-ev)*5));set('k-ek',fm(km*sh))}
+sel.addEventListener('change',pick);
+document.getElementById('a-r').onclick=function(){document.getElementById('a-c').value=mdl()[11];calc()};
+document.getElementById('calc').addEventListener('input',calc);document.getElementById('calc').addEventListener('change',calc);
+render();pick();
+</script>
+</body>
+</html>
